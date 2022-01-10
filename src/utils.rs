@@ -74,24 +74,28 @@ impl Opts {
     }
 }
 
-#[test]
-fn default_opts() {
-    let opts = Opts::parse(&vec!["".to_string(), "".to_string()]);
-    assert_eq!(opts.co2, true);
-    assert_eq!(opts.temp, true);
-    assert_eq!(opts.name, String::from("CO2MINI"));
-    assert_eq!(opts.place, String::from("living"));
-}
+#[cfg(test)]
+mod tests {
+    use super::Opts;
+    #[test]
+    fn default_opts() {
+        let opts = Opts::parse(&vec!["".to_string(), "".to_string()]);
+        assert_eq!(opts.co2, true);
+        assert_eq!(opts.temp, true);
+        assert_eq!(opts.name, String::from("CO2MINI"));
+        assert_eq!(opts.place, String::from("living"));
+    }
 
-#[test]
-fn t() {
-    let opts = Opts::parse(&vec!["".to_string(), "-t".to_string()]);
-    assert_eq!(opts.co2, false);
-    assert_eq!(opts.temp, true);
-}
+    #[test]
+    fn t() {
+        let opts = Opts::parse(&vec!["".to_string(), "-t".to_string()]);
+        assert_eq!(opts.co2, false);
+        assert_eq!(opts.temp, true);
+    }
 
-#[test]
-fn n() {
-    let opts = Opts::parse(&vec!["".to_string(), "-n".to_string(), "hoge".to_string()]);
-    assert_eq!(&opts.name, "hoge");
+    #[test]
+    fn n() {
+        let opts = Opts::parse(&vec!["".to_string(), "-n".to_string(), "hoge".to_string()]);
+        assert_eq!(&opts.name, "hoge");
+    }
 }
