@@ -62,7 +62,7 @@ impl Opts {
         }
         if self.temp {
             println!("{}\t{}\t{}", self.f("temp"), reading.temperature(), time);
-        };
+        }
     }
 
     fn f(&self, t: &str) -> String {
