@@ -19,10 +19,7 @@ impl Opts {
     pub fn parse(args: &Vec<String>) -> Self {
         let mut opts = Options::new();
         Self::parse_opts(&mut opts);
-        let matches = match opts.parse(&args[1..]) {
-            Ok(m) => m,
-            Err(e) => panic!("{}", e),
-        };
+        let matches = Self::strip_matches(&opts, args);
         let (co2, temp) = Self::default_flag(&matches);
         Opts {
             co2,
@@ -37,6 +34,13 @@ impl Opts {
         opts.optflag("t", "temperature", "show temperature(deg. celsius).");
         opts.optopt("p", "place", "sensing place(ex: living).", "NAME");
         opts.optopt("n", "sensor-name", "sensor name(ex: CO2MINI).", "NAME");
+    }
+
+    fn strip_matches(options: &Options, args: &Vec<String>) -> Matches {
+        match options.parse(&args[1..]) {
+            Ok(m) => m,
+            Err(e) => panic!("{}", e),
+        }
     }
 
     fn match_opts(matches: &Matches, opt: &str, v: &str) -> String {
