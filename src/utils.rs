@@ -23,15 +23,12 @@ impl Opts {
             Ok(m) => m,
             Err(e) => panic!("{}", e),
         };
-        let co2 = matches.opt_present("c");
-        let temp = matches.opt_present("t");
-        let place = Self::match_opts(&matches, "p", "living");
-        let name = Self::match_opts(&matches, "n", "CO2MINI");
+        let (co2, temp) = Self::default_flag(&matches);
         Opts {
             co2,
             temp,
-            name,
-            place,
+            name: Self::match_opts(&matches, "n", "CO2MINI"),
+            place: Self::match_opts(&matches, "p", "living"),
         }
     }
 
@@ -46,6 +43,16 @@ impl Opts {
         match matches.opt_str(opt) {
             Some(val) => val,
             None => v.to_string(),
+        }
+    }
+
+    fn default_flag(m: &Matches) -> (bool, bool) {
+        let (c, t) = (m.opt_present("c"), m.opt_present("t"));
+
+        if c == t {
+            (true, true)
+        } else {
+            (c, t)
         }
     }
 
